@@ -30,7 +30,7 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FollowCamera;
 
-	void InitAbilityActorInfo();
+	void InitPlayerAbilityInfo();
 
 public:
 	/** Returns CameraBoom subobject **/

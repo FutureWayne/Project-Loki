@@ -7,7 +7,9 @@
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Player/LokiPlayerController.h"
 #include "Player/LokiPlayerState.h"
+#include "UI/HUD/LokiHUD.h"
 
 ALokiPlayer::ALokiPlayer()
 {
@@ -47,10 +49,11 @@ ALokiPlayer::ALokiPlayer()
 void ALokiPlayer::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
-	
+
+	InitPlayerAbilityInfo();
 }
 
-void ALokiPlayer::InitAbilityActorInfo()
+void ALokiPlayer::InitPlayerAbilityInfo()
 {
 	ALokiPlayerState* LokiPlayerState = GetPlayerState<ALokiPlayerState>();
 	check(LokiPlayerState);
@@ -58,4 +61,12 @@ void ALokiPlayer::InitAbilityActorInfo()
 	LokiPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(LokiPlayerState, this);
 	AbilitySystemComponent = LokiPlayerState->GetAbilitySystemComponent();
 	AttributeSet = LokiPlayerState->GetAttributeSet();
+	
+	if (ALokiPlayerController* LokiPlayerController = Cast<ALokiPlayerController>(GetController()))
+	{
+		if (ALokiHUD* LokiHUD = Cast<ALokiHUD>(LokiPlayerController->GetHUD()))
+		{
+			LokiHUD->InitOverlay(LokiPlayerController, LokiPlayerController->GetPlayerState<ALokiPlayerState>(), AbilitySystemComponent, AttributeSet);
+		}
+	}
 }
