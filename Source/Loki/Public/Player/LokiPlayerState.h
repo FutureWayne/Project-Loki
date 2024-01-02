@@ -4,31 +4,29 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
-#include "GameFramework/Character.h"
-#include "LokiCharacterBase.generated.h"
+#include "GameFramework/PlayerState.h"
+#include "LokiPlayerState.generated.h"
 
 class UAttributeSet;
-
+/**
+ * 
+ */
 UCLASS()
-class LOKI_API ALokiCharacterBase : public ACharacter, public IAbilitySystemInterface
+class LOKI_API ALokiPlayerState : public APlayerState, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this character's properties
-	ALokiCharacterBase();
+	ALokiPlayerState();
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
 
+protected:
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
-	
-
 };

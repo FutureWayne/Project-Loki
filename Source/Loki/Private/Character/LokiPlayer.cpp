@@ -1,12 +1,13 @@
 // Copyright Ludens Studio
 
-
 #include "Character/LokiPlayer.h"
 
+#include "AbilitySystemComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Player/LokiPlayerState.h"
 
 ALokiPlayer::ALokiPlayer()
 {
@@ -41,4 +42,20 @@ ALokiPlayer::ALokiPlayer()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
+}
+
+void ALokiPlayer::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+	
+}
+
+void ALokiPlayer::InitAbilityActorInfo()
+{
+	ALokiPlayerState* LokiPlayerState = GetPlayerState<ALokiPlayerState>();
+	check(LokiPlayerState);
+
+	LokiPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(LokiPlayerState, this);
+	AbilitySystemComponent = LokiPlayerState->GetAbilitySystemComponent();
+	AttributeSet = LokiPlayerState->GetAttributeSet();
 }

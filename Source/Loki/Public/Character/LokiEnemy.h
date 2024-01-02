@@ -13,5 +13,10 @@ UCLASS()
 class LOKI_API ALokiEnemy : public ALokiCharacterBase
 {
 	GENERATED_BODY()
+
+public:
+	ALokiEnemy();
+
+	virtual void BeginPlay() override;
 	
 };

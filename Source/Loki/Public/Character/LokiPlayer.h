@@ -19,6 +19,7 @@ class LOKI_API ALokiPlayer : public ALokiCharacterBase
 
 public:
 	ALokiPlayer();
+	virtual void PossessedBy(AController* NewController) override;
 
 private:
 	/** Camera boom positioning the camera behind the character */
@@ -28,6 +29,8 @@ private:
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FollowCamera;
+
+	void InitAbilityActorInfo();
 
 public:
 	/** Returns CameraBoom subobject **/
