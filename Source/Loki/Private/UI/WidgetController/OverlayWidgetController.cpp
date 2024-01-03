@@ -3,6 +3,7 @@
 
 #include "UI/WidgetController/OverlayWidgetController.h"
 
+#include "AbilitySystem/LokiAbilitySystemComponent.h"
 #include "AbilitySystem/LokiAttributeSet.h"
 
 void UOverlayWidgetController::BroadCastInitialValues()
@@ -36,5 +37,17 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(LokiAttributeSet->GetMaxManaAttribute()).AddLambda([this](const FOnAttributeChangeData& Data) {
 		OnMaxManaChanged.Broadcast(Data.NewValue);
+	});
+
+	Cast<ULokiAbilitySystemComponent>(AbilitySystemComponent)->OnEffectAssetTags.AddLambda([this](const FGameplayTagContainer& Tags) {
+		for (const FGameplayTag& Tag : Tags)
+		{
+			FGameplayTag MessageTag = FGameplayTag::RequestGameplayTag(FName("Message"));
+			if (Tag.MatchesTag(MessageTag))
+			{
+				const FUIWidgetRow* Row = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable, Tag);
+				MessageWidgetRowDelegate.Broadcast(*Row);
+			}
+		}
 	});
 }

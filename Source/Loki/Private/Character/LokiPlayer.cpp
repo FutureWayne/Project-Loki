@@ -3,6 +3,7 @@
 #include "Character/LokiPlayer.h"
 
 #include "AbilitySystemComponent.h"
+#include "AbilitySystem/LokiAbilitySystemComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -50,15 +51,16 @@ void ALokiPlayer::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
-	InitPlayerAbilityInfo();
+	InitAbilityActorInfo();
 }
 
-void ALokiPlayer::InitPlayerAbilityInfo()
+void ALokiPlayer::InitAbilityActorInfo()
 {
 	ALokiPlayerState* LokiPlayerState = GetPlayerState<ALokiPlayerState>();
 	check(LokiPlayerState);
 
 	LokiPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(LokiPlayerState, this);
+	Cast<ULokiAbilitySystemComponent>(LokiPlayerState->GetAbilitySystemComponent())->AbilityActorInfoSet();
 	AbilitySystemComponent = LokiPlayerState->GetAbilitySystemComponent();
 	AttributeSet = LokiPlayerState->GetAttributeSet();
 	

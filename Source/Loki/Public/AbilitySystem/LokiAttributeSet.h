@@ -60,6 +60,10 @@ public:
 
 	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
+
+	/*
+	 * Vital Attributes
+	 */
 	
 	UPROPERTY(BlueprintReadOnly, Category = "Vital Attributes")
 	FGameplayAttributeData Health;
@@ -76,6 +80,26 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "Vital Attributes")
 	FGameplayAttributeData MaxMana;
 	ATTRIBUTE_ACCESSORS(ULokiAttributeSet, MaxMana);
+
+	/*
+	 * Primary Attributes
+	 */
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Primary Attributes")
+	FGameplayAttributeData Strength;
+	ATTRIBUTE_ACCESSORS(ULokiAttributeSet, Strength);
+
+	UPROPERTY(BlueprintReadOnly, Category = "Primary Attributes")
+	FGameplayAttributeData Intelligence;
+	ATTRIBUTE_ACCESSORS(ULokiAttributeSet, Intelligence);
+
+	UPROPERTY(BlueprintReadOnly, Category = "Primary Attributes")
+	FGameplayAttributeData Resilience;
+	ATTRIBUTE_ACCESSORS(ULokiAttributeSet, Resilience);
+
+	UPROPERTY(BlueprintReadOnly, Category = "Primary Attributes")
+	FGameplayAttributeData Vigor;
+	ATTRIBUTE_ACCESSORS(ULokiAttributeSet, Vigor);
 
 private:
 	static void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& EffectProperties);
