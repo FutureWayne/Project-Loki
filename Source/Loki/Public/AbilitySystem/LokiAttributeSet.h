@@ -70,16 +70,9 @@ public:
 	ATTRIBUTE_ACCESSORS(ULokiAttributeSet, Health);
 
 	UPROPERTY(BlueprintReadOnly, Category = "Vital Attributes")
-	FGameplayAttributeData MaxHealth;
-	ATTRIBUTE_ACCESSORS(ULokiAttributeSet, MaxHealth);
-
-	UPROPERTY(BlueprintReadOnly, Category = "Vital Attributes")
 	FGameplayAttributeData Mana;
 	ATTRIBUTE_ACCESSORS(ULokiAttributeSet, Mana);
-
-	UPROPERTY(BlueprintReadOnly, Category = "Vital Attributes")
-	FGameplayAttributeData MaxMana;
-	ATTRIBUTE_ACCESSORS(ULokiAttributeSet, MaxMana);
+	
 
 	/*
 	 * Primary Attributes
@@ -100,6 +93,49 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "Primary Attributes")
 	FGameplayAttributeData Vigor;
 	ATTRIBUTE_ACCESSORS(ULokiAttributeSet, Vigor);
+	
+	/*
+	 * Secondary Attributes
+	 */
+	UPROPERTY(BlueprintReadOnly, Category = "Secondary Attributes")
+	FGameplayAttributeData Armor;
+	ATTRIBUTE_ACCESSORS(ULokiAttributeSet, Armor);
+
+	UPROPERTY(BlueprintReadOnly, Category = "Secondary Attributes")
+	FGameplayAttributeData ArmorPenetration;
+	ATTRIBUTE_ACCESSORS(ULokiAttributeSet, ArmorPenetration);
+
+	UPROPERTY(BlueprintReadOnly, Category = "Secondary Attributes")
+	FGameplayAttributeData BlockChance;
+	ATTRIBUTE_ACCESSORS(ULokiAttributeSet, BlockChance);
+
+	UPROPERTY(BlueprintReadOnly, Category = "Secondary Attributes")
+	FGameplayAttributeData CriticalHitChance;
+	ATTRIBUTE_ACCESSORS(ULokiAttributeSet, CriticalHitChance);
+
+	UPROPERTY(BlueprintReadOnly, Category = "Secondary Attributes")
+	FGameplayAttributeData CriticalHitDamage;
+	ATTRIBUTE_ACCESSORS(ULokiAttributeSet, CriticalHitDamage);
+
+	UPROPERTY(BlueprintReadOnly, Category = "Secondary Attributes")
+	FGameplayAttributeData CriticalHitResistance;
+	ATTRIBUTE_ACCESSORS(ULokiAttributeSet, CriticalHitResistance);
+
+	UPROPERTY(BlueprintReadOnly, Category = "Secondary Attributes")
+	FGameplayAttributeData HealthRegeneration;
+	ATTRIBUTE_ACCESSORS(ULokiAttributeSet, HealthRegeneration);
+
+	UPROPERTY(BlueprintReadOnly, Category = "Secondary Attributes")
+	FGameplayAttributeData ManaRegeneration;
+	ATTRIBUTE_ACCESSORS(ULokiAttributeSet, ManaRegeneration);
+
+	UPROPERTY(BlueprintReadOnly, Category = "Secondary Attributes")
+	FGameplayAttributeData MaxHealth;
+	ATTRIBUTE_ACCESSORS(ULokiAttributeSet, MaxHealth);
+
+	UPROPERTY(BlueprintReadOnly, Category = "Secondary Attributes")
+	FGameplayAttributeData MaxMana;
+	ATTRIBUTE_ACCESSORS(ULokiAttributeSet, MaxMana);
 
 private:
 	static void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& EffectProperties);

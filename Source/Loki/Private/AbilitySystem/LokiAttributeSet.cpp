@@ -10,14 +10,22 @@
 ULokiAttributeSet::ULokiAttributeSet()
 {
 	InitHealth(50.0f);
-	InitMaxHealth(100.0f);
 	InitMana(100.0f);
-	InitMaxMana(100.0f);
 }
 
 void ULokiAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
 {
 	Super::PreAttributeChange(Attribute, NewValue);
+
+	if (Attribute == GetHealthAttribute())
+	{
+		NewValue = FMath::Clamp(NewValue, 0.f, GetMaxHealth());
+	}
+
+	if (Attribute == GetManaAttribute())
+	{
+		NewValue = FMath::Clamp(NewValue, 0.f, GetMaxMana());
+	}
 }
 
 void ULokiAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)

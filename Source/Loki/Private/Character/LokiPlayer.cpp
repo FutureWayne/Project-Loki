@@ -71,4 +71,6 @@ void ALokiPlayer::InitAbilityActorInfo()
 			LokiHUD->InitOverlay(LokiPlayerController, LokiPlayerController->GetPlayerState<ALokiPlayerState>(), AbilitySystemComponent, AttributeSet);
 		}
 	}
+
+	InitializeDefaultAttributes();
 }
