@@ -5,13 +5,14 @@
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
 #include "GameFramework/Character.h"
+#include "Interaction/CombatInterface.h"
 #include "LokiCharacterBase.generated.h"
 
 class UGameplayEffect;
 class UAttributeSet;
 
 UCLASS()
-class LOKI_API ALokiCharacterBase : public ACharacter, public IAbilitySystemInterface
+class LOKI_API ALokiCharacterBase : public ACharacter, public IAbilitySystemInterface, public ICombatInterface
 {
 	GENERATED_BODY()
 
@@ -42,4 +43,7 @@ protected:
 	
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Loki|Attributes")
 	TSubclassOf<UGameplayEffect> DefaultSecondaryAttributes;
+	
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Loki|Attributes")
+	TSubclassOf<UGameplayEffect> DefaultVitalAttributes;
 };

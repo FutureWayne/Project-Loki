@@ -21,6 +21,11 @@ void ALokiEnemy::BeginPlay()
 	InitAbilityActorInfo();
 }
 
+int32 ALokiEnemy::GetCharacterLevel()
+{
+	return Level;
+}
+
 void ALokiEnemy::InitAbilityActorInfo()
 {
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);

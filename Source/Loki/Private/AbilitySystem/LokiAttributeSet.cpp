@@ -9,8 +9,6 @@
 
 ULokiAttributeSet::ULokiAttributeSet()
 {
-	InitHealth(50.0f);
-	InitMana(100.0f);
 }
 
 void ULokiAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)

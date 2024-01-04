@@ -21,7 +21,8 @@ public:
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
-	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
+	FORCEINLINE UAttributeSet* GetAttributeSet() const { return AttributeSet; }
+	FORCEINLINE int32 GetPlayerLevel() const { return Level; }
 
 protected:
 	UPROPERTY(VisibleAnywhere)
@@ -29,4 +30,8 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
+
+private:
+	UPROPERTY(VisibleAnywhere)
+	int32 Level = 1;
 };

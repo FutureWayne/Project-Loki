@@ -19,7 +19,13 @@ public:
 
 	virtual void BeginPlay() override;
 
+	/** Combat Interface */
+	virtual int32 GetCharacterLevel() override;
+
 protected:
 	virtual void InitAbilityActorInfo() override;
-	
+
+private:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	int32 Level = 1;
 };

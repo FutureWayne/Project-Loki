@@ -54,6 +54,13 @@ void ALokiPlayer::PossessedBy(AController* NewController)
 	InitAbilityActorInfo();
 }
 
+int32 ALokiPlayer::GetCharacterLevel()
+{
+	const ALokiPlayerState* LokiPlayerState = GetPlayerState<ALokiPlayerState>();
+	check(LokiPlayerState);
+	return LokiPlayerState->GetPlayerLevel();
+}
+
 void ALokiPlayer::InitAbilityActorInfo()
 {
 	ALokiPlayerState* LokiPlayerState = GetPlayerState<ALokiPlayerState>();

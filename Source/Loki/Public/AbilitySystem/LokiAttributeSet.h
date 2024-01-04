@@ -73,7 +73,6 @@ public:
 	FGameplayAttributeData Mana;
 	ATTRIBUTE_ACCESSORS(ULokiAttributeSet, Mana);
 	
-
 	/*
 	 * Primary Attributes
 	 */
@@ -97,6 +96,7 @@ public:
 	/*
 	 * Secondary Attributes
 	 */
+	
 	UPROPERTY(BlueprintReadOnly, Category = "Secondary Attributes")
 	FGameplayAttributeData Armor;
 	ATTRIBUTE_ACCESSORS(ULokiAttributeSet, Armor);

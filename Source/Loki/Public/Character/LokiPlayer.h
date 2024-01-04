@@ -19,7 +19,11 @@ class LOKI_API ALokiPlayer : public ALokiCharacterBase
 
 public:
 	ALokiPlayer();
+	
 	virtual void PossessedBy(AController* NewController) override;
+
+	/** Combat Interface */
+	virtual int32 GetCharacterLevel() override;
 
 protected:
 	virtual void InitAbilityActorInfo() override;
