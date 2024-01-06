@@ -47,6 +47,10 @@ struct FEffectProperties
 	ACharacter* TargetCharacter = nullptr;
 };
 
+// A generic type pointer to a static function
+template<class T>
+using TStaticFuncPtr = typename TBaseStaticDelegateInstance<T, FDefaultDelegateUserPolicy>::FFuncPtr;
+
 /**
  * 
  */
@@ -60,6 +64,9 @@ public:
 
 	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
+
+	// Map of a gameplay tag to a static attribute getter function
+	TMap<FGameplayTag, TStaticFuncPtr<FGameplayAttribute()>> TagsToAttributeGetters;
 
 	/*
 	 * Vital Attributes

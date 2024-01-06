@@ -9,7 +9,7 @@ void ULokiAbilitySystemComponent::AbilityActorInfoSet()
 }
 
 void ULokiAbilitySystemComponent::EffectApplied(UAbilitySystemComponent* Source, const FGameplayEffectSpec& SpecApplied,
-                                                FActiveGameplayEffectHandle ActiveHandle)
+                                                FActiveGameplayEffectHandle ActiveHandle) const
 {
 	FGameplayTagContainer TagContainer;
 	SpecApplied.GetAllAssetTags(TagContainer);
