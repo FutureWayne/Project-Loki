@@ -8,6 +8,7 @@
 #include "Interaction/CombatInterface.h"
 #include "LokiCharacterBase.generated.h"
 
+class UGameplayAbility;
 class UGameplayEffect;
 class UAttributeSet;
 
@@ -32,6 +33,8 @@ protected:
 
 	void InitializeDefaultAttributes() const;
 
+	void AddCharacterAbilities();
+
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
@@ -46,4 +49,8 @@ protected:
 	
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Loki|Attributes")
 	TSubclassOf<UGameplayEffect> DefaultVitalAttributes;
+
+private:
+	UPROPERTY(EditAnywhere, Category = "Loki|Abilities")
+	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
 };

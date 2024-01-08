@@ -3,9 +3,47 @@
 
 #include "Player/LokiPlayerController.h"
 
-#include "EnhancedInputComponent.h"
+#include "AbilitySystemBlueprintLibrary.h"
+#include "Input/LokiInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "AbilitySystem/LokiAbilitySystemComponent.h"
 #include "GameFramework/Character.h"
+
+
+void ALokiPlayerController::AbilityInputTagPressed(const FGameplayTag InputTag)
+{
+	//
+}
+
+void ALokiPlayerController::AbilityInputTagReleased(const FGameplayTag InputTag)
+{
+	if (GetLokiAbilitySystemComponent() == nullptr)
+	{
+		return;
+	}
+
+	GetLokiAbilitySystemComponent()->AbilityTagReleased(InputTag);
+}
+
+void ALokiPlayerController::AbilityInputTagHeld(const FGameplayTag InputTag)
+{
+	if (GetLokiAbilitySystemComponent() == nullptr)
+	{
+		return;
+	}
+
+	GetLokiAbilitySystemComponent()->AbilityTagHeld(InputTag);
+}
+
+ULokiAbilitySystemComponent* ALokiPlayerController::GetLokiAbilitySystemComponent()
+{
+	if (!LokiAbilitySystemComponent)
+	{
+		LokiAbilitySystemComponent = CastChecked<ULokiAbilitySystemComponent>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetPawn()));
+	}
+	return LokiAbilitySystemComponent;
+}
+
 
 void ALokiPlayerController::BeginPlay()
 {
@@ -23,21 +61,25 @@ void ALokiPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
 
-	UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent);
-	check(EnhancedInputComponent);
+	ULokiInputComponent* LokiInputComponent = CastChecked<ULokiInputComponent>(InputComponent);
+	check(LokiInputComponent);
 
 	if (ACharacter* ControllerCharacter = GetCharacter())
 	{
 		// Jumping
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, ControllerCharacter, &ACharacter::Jump);
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, ControllerCharacter, &ACharacter::StopJumping);
+		LokiInputComponent->BindAction(JumpAction, ETriggerEvent::Started, ControllerCharacter, &ACharacter::Jump);
+		LokiInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, ControllerCharacter, &ACharacter::StopJumping);
 	}
 	
 	// Moving
-	EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ALokiPlayerController::Move);
+	LokiInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ALokiPlayerController::Move);
 
 	// Looking
-	EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ALokiPlayerController::Look);
+	LokiInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ALokiPlayerController::Look);
+
+	// Ability Actions
+	//LokiInputComponent->BindAbilityActions(InputConfig, this, &ALokiPlayerController::AbilityInputTagPressed, &ALokiPlayerController::AbilityInputTagReleased, &ALokiPlayerController::AbilityInputTagHeld);
+	LokiInputComponent->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
 }
 
 void ALokiPlayerController::Move(const FInputActionValue& InputActionValue)

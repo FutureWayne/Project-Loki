@@ -4,6 +4,7 @@
 #include "Character/LokiCharacterBase.h"
 
 #include "AbilitySystemComponent.h"
+#include "AbilitySystem/LokiAbilitySystemComponent.h"
 
 // Sets default values
 ALokiCharacterBase::ALokiCharacterBase()
@@ -40,5 +41,12 @@ void ALokiCharacterBase::InitializeDefaultAttributes() const
 	ApplyEffectToSelf(DefaultPrimaryAttributes, 1);
 	ApplyEffectToSelf(DefaultSecondaryAttributes, 1);
 	ApplyEffectToSelf(DefaultVitalAttributes, 1);
+}
+
+void ALokiCharacterBase::AddCharacterAbilities()
+{
+	ULokiAbilitySystemComponent* LokiAbilitySystemComponent = CastChecked<ULokiAbilitySystemComponent>(GetAbilitySystemComponent());
+
+	LokiAbilitySystemComponent->AddCharacterAbilities(StartupAbilities);
 }
 

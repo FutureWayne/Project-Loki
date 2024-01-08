@@ -3,10 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "GameFramework/PlayerController.h"
 #include "LokiPlayerController.generated.h"
 
+class ULokiAbilitySystemComponent;
 struct FInputActionValue;
+class ULokiInputConfig;
 class UInputAction;
 class UInputMappingContext;
 /**
@@ -16,6 +19,19 @@ UCLASS()
 class LOKI_API ALokiPlayerController : public APlayerController
 {
 	GENERATED_BODY()
+
+public:
+	void AbilityInputTagPressed(FGameplayTag InputTag);
+	void AbilityInputTagReleased(FGameplayTag InputTag);
+	void AbilityInputTagHeld(FGameplayTag InputTag);
+
+	ULokiAbilitySystemComponent* GetLokiAbilitySystemComponent();
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Input)
+	TObjectPtr<ULokiInputConfig> InputConfig;
+
+	UPROPERTY()
+	TObjectPtr<ULokiAbilitySystemComponent> LokiAbilitySystemComponent;
 
 protected:
 	virtual void BeginPlay() override;
