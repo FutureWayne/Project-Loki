@@ -50,3 +50,12 @@ void ALokiCharacterBase::AddCharacterAbilities()
 	LokiAbilitySystemComponent->AddCharacterAbilities(StartupAbilities);
 }
 
+FVector ALokiCharacterBase::GetCombatSocketLocation()
+{
+	return GetMesh()->GetSocketLocation(WeaponTipSocketName);
+}
+
+FVector ALokiCharacterBase::GetCombatAimLocation()
+{
+	return ICombatInterface::GetCombatAimLocation();
+}

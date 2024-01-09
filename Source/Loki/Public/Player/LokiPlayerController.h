@@ -60,4 +60,10 @@ private:
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
+
+	/** Called for jumping input */
+	void Jump(const FInputActionValue& Value);
+
+	/** Called for stopping jumping input */
+	void StopJumping(const FInputActionValue& Value);
 };

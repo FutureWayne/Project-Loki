@@ -64,12 +64,9 @@ void ALokiPlayerController::SetupInputComponent()
 	ULokiInputComponent* LokiInputComponent = CastChecked<ULokiInputComponent>(InputComponent);
 	check(LokiInputComponent);
 
-	if (ACharacter* ControllerCharacter = GetCharacter())
-	{
-		// Jumping
-		LokiInputComponent->BindAction(JumpAction, ETriggerEvent::Started, ControllerCharacter, &ACharacter::Jump);
-		LokiInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, ControllerCharacter, &ACharacter::StopJumping);
-	}
+	// Jumping
+	LokiInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ALokiPlayerController::Jump);
+	LokiInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ALokiPlayerController::StopJumping);
 	
 	// Moving
 	LokiInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ALokiPlayerController::Move);
@@ -112,3 +109,23 @@ void ALokiPlayerController::Look(const FInputActionValue& Value)
 	AddYawInput(LookAxisVector.X);
 	AddPitchInput(LookAxisVector.Y);
 }
+
+void ALokiPlayerController::Jump(const FInputActionValue& Value)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Jump"));
+	if (ACharacter* ControlledCharacter = GetCharacter())
+	{
+		ControlledCharacter->Jump();
+	}
+}
+
+void ALokiPlayerController::StopJumping(const FInputActionValue& Value)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Stop Jumping"));
+	if (ACharacter* ControlledCharacter = GetCharacter())
+	{
+		ControlledCharacter->StopJumping();
+	}
+}
+
+

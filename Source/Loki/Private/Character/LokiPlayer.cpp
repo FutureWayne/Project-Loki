@@ -82,3 +82,28 @@ void ALokiPlayer::InitAbilityActorInfo()
 
 	InitializeDefaultAttributes();
 }
+
+FVector ALokiPlayer::GetCombatAimLocation()
+{
+	const FVector CameraLocation = FollowCamera->GetComponentLocation();
+	const FRotator CameraRotation = FollowCamera->GetComponentRotation();
+
+	FVector Start = CameraLocation;
+	FVector End = CameraLocation + (CameraRotation.Vector() * 10000); // 10000 is an arbitrary distance
+
+	FHitResult HitResult;
+	FCollisionQueryParams CollisionParams;
+	CollisionParams.AddIgnoredActor(this); // Ignore the player character in the line trace
+
+	if (bool bHit = GetWorld()->LineTraceSingleByChannel(
+		HitResult,
+		Start,
+		End,
+		ECC_Visibility, // Change this to the appropriate collision channel
+		CollisionParams
+	))
+	{
+		return HitResult.ImpactPoint;
+	}
+	return End;
+}

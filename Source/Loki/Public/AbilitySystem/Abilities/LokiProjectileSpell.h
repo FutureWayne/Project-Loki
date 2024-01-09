@@ -6,6 +6,7 @@
 #include "AbilitySystem/Abilities/LokiGameplayAbility.h"
 #include "LokiProjectileSpell.generated.h"
 
+class ALokiProjectile;
 /**
  * 
  */
@@ -14,5 +15,9 @@ class LOKI_API ULokiProjectileSpell : public ULokiGameplayAbility
 {
 	GENERATED_BODY()
 
+protected:
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TSubclassOf<ALokiProjectile> ProjectileClass;
 };

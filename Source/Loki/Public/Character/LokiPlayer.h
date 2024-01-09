@@ -28,6 +28,8 @@ public:
 protected:
 	virtual void InitAbilityActorInfo() override;
 
+	virtual FVector GetCombatAimLocation() override;
+
 private:
 	/** Camera boom positioning the camera behind the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))

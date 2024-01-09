@@ -35,6 +35,13 @@ protected:
 
 	void AddCharacterAbilities();
 
+	virtual FVector GetCombatSocketLocation() override;
+
+	virtual FVector GetCombatAimLocation() override;
+
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	FName WeaponTipSocketName;
+
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
