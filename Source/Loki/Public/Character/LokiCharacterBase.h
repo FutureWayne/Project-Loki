@@ -33,11 +33,13 @@ protected:
 
 	void InitializeDefaultAttributes() const;
 
-	void AddCharacterAbilities();
+	void AddCharacterAbilities() const;
 
 	virtual FVector GetCombatSocketLocation() override;
 
 	virtual FVector GetCombatAimLocation() override;
+
+	virtual void UpdateFacingTarget(const FVector& TargetLocation) override;
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	FName WeaponTipSocketName;

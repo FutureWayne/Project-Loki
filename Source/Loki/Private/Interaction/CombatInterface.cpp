@@ -18,3 +18,9 @@ FVector ICombatInterface::GetCombatAimLocation()
 {
 	return FVector();
 }
+
+void ICombatInterface::UpdateFacingTarget(const FVector& TargetLocation)
+{
+}
+
+

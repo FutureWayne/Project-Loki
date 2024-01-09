@@ -33,7 +33,7 @@ void ALokiCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> EffectCl
 	ContextHandle.AddSourceObject(this);
 	
 	const FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(EffectClass, Level, ContextHandle);
-	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), GetAbilitySystemComponent());
+	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
 }
 
 void ALokiCharacterBase::InitializeDefaultAttributes() const
@@ -43,7 +43,7 @@ void ALokiCharacterBase::InitializeDefaultAttributes() const
 	ApplyEffectToSelf(DefaultVitalAttributes, 1);
 }
 
-void ALokiCharacterBase::AddCharacterAbilities()
+void ALokiCharacterBase::AddCharacterAbilities() const
 {
 	ULokiAbilitySystemComponent* LokiAbilitySystemComponent = CastChecked<ULokiAbilitySystemComponent>(GetAbilitySystemComponent());
 
@@ -58,4 +58,9 @@ FVector ALokiCharacterBase::GetCombatSocketLocation()
 FVector ALokiCharacterBase::GetCombatAimLocation()
 {
 	return ICombatInterface::GetCombatAimLocation();
+}
+
+void ALokiCharacterBase::UpdateFacingTarget(const FVector& TargetLocation)
+{
+	ICombatInterface::UpdateFacingTarget(TargetLocation);
 }

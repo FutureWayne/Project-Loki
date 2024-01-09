@@ -4,12 +4,10 @@
 #include "AbilitySystem/Abilities/LokiProjectileSpell.h"
 
 #include "Actor/LokiProjectile.h"
-#include "Camera/CameraComponent.h"
-#include "Character/LokiPlayer.h"
+#include "Components/SphereComponent.h"
 #include "GameFramework/Character.h"
 #include "Interaction/CombatInterface.h"
 #include "Kismet/KismetMathLibrary.h"
-#include "Kismet/KismetSystemLibrary.h"
 
 void ULokiProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Handle,
                                            const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo,
@@ -17,8 +15,15 @@ void ULokiProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Hand
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 
-	UKismetSystemLibrary::PrintString(this, "Projectile Spell Activated", true, true, FLinearColor::Red, 5.f);
+	if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(GetAvatarActorFromActorInfo()))
+	{
+		const FVector FacingTargetLocation = CombatInterface->GetCombatAimLocation();
+		CombatInterface->UpdateFacingTarget(FacingTargetLocation);
+	}
+}
 
+void ULokiProjectileSpell::SpawnProjectile()
+{
 	if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(GetAvatarActorFromActorInfo()))
 	{
 		const FVector SocketLocation = CombatInterface->GetCombatSocketLocation();
@@ -27,17 +32,17 @@ void ULokiProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Hand
 		
 		// Create a transform with the muzzle location and the aim rotation
 		FTransform SpawnTransform(AimRotation, SocketLocation);
-		
-		ALokiProjectile* Projectile = GetWorld()->SpawnActorDeferred<ALokiProjectile>(
+
+		if (ALokiProjectile* Projectile = GetWorld()->SpawnActorDeferred<ALokiProjectile>(
 			ProjectileClass,
 			SpawnTransform,
 			GetOwningActorFromActorInfo(),
 			Cast<APawn>(GetOwningActorFromActorInfo()),
-			ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
-
-		if (Projectile)
+			ESpawnActorCollisionHandlingMethod::AlwaysSpawn))
 		{
 			//TODO: Give the Projectile a Gameplay Effect Spec for causing Damage.
+
+			Projectile->SphereComponent->IgnoreActorWhenMoving(GetAvatarActorFromActorInfo(), true);
 
 			// Complete the spawn after setting up initial conditions
 			Projectile->FinishSpawning(SpawnTransform);

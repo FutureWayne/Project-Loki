@@ -12,7 +12,12 @@
 
 void ALokiPlayerController::AbilityInputTagPressed(const FGameplayTag InputTag)
 {
-	//
+	if (GetLokiAbilitySystemComponent() == nullptr)
+	{
+		return;
+	}
+
+	GetLokiAbilitySystemComponent()->AbilityTagPressed(InputTag);
 }
 
 void ALokiPlayerController::AbilityInputTagReleased(const FGameplayTag InputTag)
@@ -75,7 +80,6 @@ void ALokiPlayerController::SetupInputComponent()
 	LokiInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ALokiPlayerController::Look);
 
 	// Ability Actions
-	//LokiInputComponent->BindAbilityActions(InputConfig, this, &ALokiPlayerController::AbilityInputTagPressed, &ALokiPlayerController::AbilityInputTagReleased, &ALokiPlayerController::AbilityInputTagHeld);
 	LokiInputComponent->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
 }
 

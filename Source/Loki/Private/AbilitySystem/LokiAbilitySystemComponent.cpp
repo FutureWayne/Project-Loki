@@ -58,13 +58,9 @@ void ULokiAbilitySystemComponent::AbilityTagReleased(const FGameplayTag& InputTa
 
 	for (FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
 	{
-		if (AbilitySpec.DynamicAbilityTags.HasTagExact(InputTag))
+		if (AbilitySpec.DynamicAbilityTags.HasTagExact(InputTag) && AbilitySpec.IsActive())
 		{
 			AbilitySpecInputReleased(AbilitySpec);
-			if (AbilitySpec.IsActive())
-			{
-				CancelAbility(AbilitySpec.Ability);
-			}
 		}
 	}
 }

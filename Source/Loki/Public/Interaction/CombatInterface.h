@@ -25,6 +25,8 @@ public:
 	virtual int32 GetCharacterLevel();
 
 	virtual FVector GetCombatSocketLocation();
-
+	
 	virtual FVector GetCombatAimLocation();
+	
+	virtual void UpdateFacingTarget(const FVector& TargetLocation);
 };
