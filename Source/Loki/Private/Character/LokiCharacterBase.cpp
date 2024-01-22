@@ -5,12 +5,21 @@
 
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/LokiAbilitySystemComponent.h"
+#include "Components/CapsuleComponent.h"
+#include "Loki/Loki.h"
 
 // Sets default values
 ALokiCharacterBase::ALokiCharacterBase()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
+
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Projectile, ECR_Ignore);
+	GetCapsuleComponent()->SetGenerateOverlapEvents(false);
+	GetMesh()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
+	GetMesh()->SetCollisionResponseToChannel(ECC_Projectile, ECR_Overlap);
+	GetMesh()->SetGenerateOverlapEvents(true);
 }
 
 UAbilitySystemComponent* ALokiCharacterBase::GetAbilitySystemComponent() const

@@ -6,6 +6,8 @@
 #include "AbilitySystem/Abilities/LokiGameplayAbility.h"
 #include "LokiProjectileSpell.generated.h"
 
+class UGameplayEffect;
+
 class ALokiProjectile;
 /**
  * 
@@ -21,6 +23,9 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "Loki|Projectile")
 	void SpawnProjectile();
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Loki|Projectile")
 	TSubclassOf<ALokiProjectile> ProjectileClass;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Loki|Projectile")
+	TSubclassOf<UGameplayEffect> DamageEffectClass;
 };

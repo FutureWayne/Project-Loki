@@ -1,8 +1,8 @@
 // Copyright Ludens Studio
 
-
 #include "AbilitySystem/Abilities/LokiProjectileSpell.h"
 
+#include "AbilitySystemComponent.h"
 #include "Actor/LokiProjectile.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/Character.h"
@@ -40,7 +40,10 @@ void ULokiProjectileSpell::SpawnProjectile()
 			Cast<APawn>(GetOwningActorFromActorInfo()),
 			ESpawnActorCollisionHandlingMethod::AlwaysSpawn))
 		{
-			//TODO: Give the Projectile a Gameplay Effect Spec for causing Damage.
+			// Give the Projectile a Gameplay Effect Spec Handle for causing Damage.
+			const UAbilitySystemComponent* SourceASC = GetAbilitySystemComponentFromActorInfo();
+			const FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(DamageEffectClass, GetAbilityLevel(), SourceASC->MakeEffectContext());
+			Projectile->DamageEffectSpecHandle = SpecHandle;
 
 			Projectile->SphereComponent->IgnoreActorWhenMoving(GetAvatarActorFromActorInfo(), true);
 
