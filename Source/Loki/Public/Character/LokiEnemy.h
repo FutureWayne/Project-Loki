@@ -4,8 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "Character/LokiCharacterBase.h"
+#include "UI/WidgetController/OverlayWidgetController.h"
 #include "LokiEnemy.generated.h"
 
+class UWidgetComponent;
 /**
  * 
  */
@@ -22,10 +24,18 @@ public:
 	/** Combat Interface */
 	virtual int32 GetCharacterLevel() override;
 
+	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
+	FOnHealtChangedSignature OnHealthChanged;
+
+	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
+	FOnHealtChangedSignature OnMaxHealthChanged;
+
 protected:
 	virtual void InitAbilityActorInfo() override;
-
-private:
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	int32 Level = 1;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	TObjectPtr<UWidgetComponent> HealthBar;
 };
