@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "Character/LokiCharacterBase.h"
 #include "UI/WidgetController/OverlayWidgetController.h"
 #include "LokiEnemy.generated.h"
@@ -32,9 +33,14 @@ public:
 
 protected:
 	virtual void InitAbilityActorInfo() override;
+
+	virtual void InitializeDefaultAttributes() const override;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Class Defaults")
 	int32 Level = 1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Class Defaults")
+	ECharacterClass CharacterClass = ECharacterClass::Elementalist;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UWidgetComponent> HealthBar;

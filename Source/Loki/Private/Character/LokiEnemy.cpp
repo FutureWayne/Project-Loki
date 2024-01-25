@@ -4,6 +4,7 @@
 #include "Character/LokiEnemy.h"
 
 #include "AbilitySystem/LokiAbilitySystemComponent.h"
+#include "AbilitySystem/LokiAbilitySystemLibrary.h"
 #include "AbilitySystem/LokiAttributeSet.h"
 #include "Components/WidgetComponent.h"
 #include "UI/Widget/LokiUserWidget.h"
@@ -57,4 +58,9 @@ void ALokiEnemy::InitAbilityActorInfo()
 	Cast<ULokiAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
 
 	InitializeDefaultAttributes();
+}
+
+void ALokiEnemy::InitializeDefaultAttributes() const
+{
+	ULokiAbilitySystemLibrary::InitializeDefaultAttributes(this, CharacterClass, Level, AbilitySystemComponent);
 }
