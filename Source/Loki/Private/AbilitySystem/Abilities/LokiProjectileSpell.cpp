@@ -2,12 +2,13 @@
 
 #include "AbilitySystem/Abilities/LokiProjectileSpell.h"
 
+#include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
 #include "Actor/LokiProjectile.h"
 #include "Components/SphereComponent.h"
-#include "GameFramework/Character.h"
 #include "Interaction/CombatInterface.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Singleton/LokiGameplayTags.h"
 
 void ULokiProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Handle,
                                            const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo,
@@ -31,7 +32,7 @@ void ULokiProjectileSpell::SpawnProjectile()
 		const FRotator AimRotation = UKismetMathLibrary::FindLookAtRotation(SocketLocation, AimLocation);
 		
 		// Create a transform with the muzzle location and the aim rotation
-		FTransform SpawnTransform(AimRotation, SocketLocation);
+		const FTransform SpawnTransform(AimRotation, SocketLocation);
 
 		if (ALokiProjectile* Projectile = GetWorld()->SpawnActorDeferred<ALokiProjectile>(
 			ProjectileClass,
@@ -43,57 +44,16 @@ void ULokiProjectileSpell::SpawnProjectile()
 			// Give the Projectile a Gameplay Effect Spec Handle for causing Damage.
 			const UAbilitySystemComponent* SourceASC = GetAbilitySystemComponentFromActorInfo();
 			const FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(DamageEffectClass, GetAbilityLevel(), SourceASC->MakeEffectContext());
+
+			const FLokiGameplayTags GameplayTags = FLokiGameplayTags::Get();
+			const float DamageValue = Damage.GetValueAtLevel(GetAbilityLevel());
+			UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTags.Damage, DamageValue);
 			Projectile->DamageEffectSpecHandle = SpecHandle;
 
 			Projectile->SphereComponent->IgnoreActorWhenMoving(GetAvatarActorFromActorInfo(), true);
 
 			// Complete the spawn after setting up initial conditions
 			Projectile->FinishSpawning(SpawnTransform);
-		}
-
-		// Debug: Draw a line from the muzzle in the direction the camera is facing
-		FVector Start = SocketLocation;
-		FVector End = AimLocation;
-
-		FHitResult HitResult;
-		FCollisionQueryParams CollisionParams;
-		ACharacter* Character = Cast<ACharacter>(GetAvatarActorFromActorInfo());
-		CollisionParams.AddIgnoredActor(Character); // Ignore the player character in the line trace
-
-		bool bHit = GetWorld()->LineTraceSingleByChannel(
-			HitResult,
-			Start,
-			End,
-			ECC_Visibility, // Change this to the appropriate collision channel
-			CollisionParams
-		);
-
-		// Draw a debug line
-		DrawDebugLine(
-			GetWorld(),
-			Start,
-			End,
-			FColor::Red, // Line color
-			false, // Persistent (remains after one frame)
-			5.0f, // Duration of line display
-			0, // Depth priority
-			1.0f // Line thickness
-		);
-
-		// If the line trace hits something, draw a debug sphere at the hit location
-		if (bHit)
-		{
-			DrawDebugSphere(
-				GetWorld(),
-				HitResult.Location,
-				25.0f, // Sphere radius
-				32, // Sphere segments
-				FColor::Blue, // Sphere color
-				false, // Persistent (remains after one frame)
-				5.0f, // Duration of sphere display
-				0, // Depth priority
-				1.0f // Line thickness
-			);
 		}
 	}
 }

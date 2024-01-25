@@ -21,15 +21,23 @@ public:
 	ALokiEnemy();
 
 	virtual void BeginPlay() override;
+	
+	void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 
 	/** Combat Interface */
 	virtual int32 GetCharacterLevel() override;
-
+	
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
 	FOnHealtChangedSignature OnHealthChanged;
 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
 	FOnHealtChangedSignature OnMaxHealthChanged;
+
+	UPROPERTY(BlueprintReadOnly, Category = "GAS|Attributes")
+	bool bHitReacting = false;
+
+	UPROPERTY(BlueprintReadOnly, Category = "GAS|Attributes")
+	float BaseWalkSpeed = 600.f;
 
 protected:
 	virtual void InitAbilityActorInfo() override;

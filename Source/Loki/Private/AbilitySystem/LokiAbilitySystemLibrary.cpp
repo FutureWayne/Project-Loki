@@ -74,6 +74,21 @@ void ULokiAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* World
 	const FGameplayEffectSpecHandle VitalAttributesEffectSpecHandle = AbilitySystemComponent->MakeOutgoingSpec(
 		CharacterClassInfo->VitalAttributesGameplayEffect, Level, VitalAttributesEffectContextHandle);
 	AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*VitalAttributesEffectSpecHandle.Data.Get());
-	
-	
+}
+
+void ULokiAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContextObject,
+	UAbilitySystemComponent* AbilitySystemComponent)
+{
+	const ALokiGameModeBase* LokiGameModeBase = Cast<ALokiGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+	if (LokiGameModeBase == nullptr)
+	{
+		return;
+	}
+
+	const UCharacterClassInfo* CharacterClassInfo = LokiGameModeBase->CharacterClassInfo;
+	TArray<TSubclassOf<UGameplayAbility>> CommonAbilities = CharacterClassInfo->CommonAbilities;
+	for (const TSubclassOf<UGameplayAbility> CommonAbility : CommonAbilities)
+	{
+		AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(CommonAbility, 1, 0));
+	}
 }

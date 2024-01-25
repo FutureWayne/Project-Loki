@@ -118,4 +118,22 @@ void FLokiGameplayTags::InitializeNativeGameplayTags()
 		FName("InputTag.4"),
 		FString("Input Tag for 4 key")
 		);
+
+	/*
+	 * Damage Tags
+	 */
+
+	GameplayTags.Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Damage"),
+		FString("Damage Tag")
+		);
+
+	/*
+	 * Effect Tags
+	 */
+
+	GameplayTags.Effect_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(
+	 		FName("Effect.HitReact"),
+		FString("Hit React Effect Tag")
+		);
 }

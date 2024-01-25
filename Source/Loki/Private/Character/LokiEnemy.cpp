@@ -7,6 +7,8 @@
 #include "AbilitySystem/LokiAbilitySystemLibrary.h"
 #include "AbilitySystem/LokiAttributeSet.h"
 #include "Components/WidgetComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "Singleton/LokiGameplayTags.h"
 #include "UI/Widget/LokiUserWidget.h"
 
 ALokiEnemy::ALokiEnemy()
@@ -24,7 +26,11 @@ void ALokiEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 
+	GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
+	
 	InitAbilityActorInfo();
+
+	ULokiAbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent);
 
 	if (ULokiUserWidget* LokiUserWidget = Cast<ULokiUserWidget>(HealthBar->GetUserWidgetObject()))
 	{
@@ -33,18 +39,34 @@ void ALokiEnemy::BeginPlay()
 
 	if (const ULokiAttributeSet* LokiAttributeSet = CastChecked<ULokiAttributeSet>(AttributeSet))
 	{
-		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(LokiAttributeSet->GetHealthAttribute()).AddLambda([this](const FOnAttributeChangeData& Data) {
-		OnHealthChanged.Broadcast(Data.NewValue);
-		});
+		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(LokiAttributeSet->GetHealthAttribute()).
+		                        AddLambda([this](const FOnAttributeChangeData& Data)
+		                        {
+			                        OnHealthChanged.Broadcast(Data.NewValue);
+		                        });
 
-		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(LokiAttributeSet->GetMaxHealthAttribute()).AddLambda([this](const FOnAttributeChangeData& Data) {
-		OnMaxHealthChanged.Broadcast(Data.NewValue);
-		});
+		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(LokiAttributeSet->GetMaxHealthAttribute()).
+		                        AddLambda([this](const FOnAttributeChangeData& Data)
+		                        {
+			                        OnMaxHealthChanged.Broadcast(Data.NewValue);
+		                        });
+
+		AbilitySystemComponent->RegisterGameplayTagEvent(FLokiGameplayTags::Get().Effect_HitReact,
+		                                                 EGameplayTagEventType::NewOrRemoved).AddUObject(
+			this, &ALokiEnemy::HitReactTagChanged
+		);
 
 		// Broadcast initial values
 		OnHealthChanged.Broadcast(LokiAttributeSet->GetHealth());
 		OnMaxHealthChanged.Broadcast(LokiAttributeSet->GetMaxHealth());
 	}
+}
+
+void ALokiEnemy::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
+{
+	bHitReacting = NewCount > 0;
+	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.f : 600.f;
+	
 }
 
 int32 ALokiEnemy::GetCharacterLevel()

@@ -27,6 +27,11 @@ UAbilitySystemComponent* ALokiCharacterBase::GetAbilitySystemComponent() const
 	return AbilitySystemComponent;
 }
 
+UAnimMontage* ALokiCharacterBase::GetHitReactMontage_Implementation() const
+{
+	return HitReactMontage;
+}
+
 // Called when the game starts or when spawned
 void ALokiCharacterBase::BeginPlay()
 {
