@@ -6,6 +6,7 @@
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/LokiAbilitySystemComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Loki/Loki.h"
 
 // Sets default values
@@ -77,4 +78,17 @@ FVector ALokiCharacterBase::GetCombatAimLocation()
 void ALokiCharacterBase::UpdateFacingTarget(const FVector& TargetLocation)
 {
 	ICombatInterface::UpdateFacingTarget(TargetLocation);
+}
+
+void ALokiCharacterBase::Die()
+{
+	GetMesh()->SetSimulatePhysics(true);
+	GetMesh()->SetEnableGravity(true);
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
+
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	GetCharacterMovement()->DisableMovement();
+	GetCharacterMovement()->SetComponentTickEnabled(false);
 }

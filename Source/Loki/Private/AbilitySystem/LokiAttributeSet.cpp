@@ -5,7 +5,11 @@
 
 #include "AbilitySystemBlueprintLibrary.h"
 #include "GameplayEffectExtension.h"
+#include "Character/LokiPlayer.h"
 #include "GameFramework/Character.h"
+#include "Interaction/CombatInterface.h"
+#include "Kismet/GameplayStatics.h"
+#include "Player/LokiPlayerController.h"
 #include "Singleton/LokiGameplayTags.h"
 
 ULokiAttributeSet::ULokiAttributeSet()
@@ -81,6 +85,16 @@ void ULokiAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 				TagContainer.AddTag(FLokiGameplayTags::Get().Effect_HitReact);
 				EffectProperties.TargetASC->TryActivateAbilitiesByTag(TagContainer);
 			}
+			else
+			{
+				ICombatInterface* CombatInterface = Cast<ICombatInterface>(EffectProperties.TargetAvatarActor);
+				if (CombatInterface)
+				{
+					CombatInterface->Die();
+				}
+			}
+
+			ShowFloatingText(EffectProperties, LocalIncomingDamage);
 		}
 	}
 }
@@ -116,5 +130,16 @@ void ULokiAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData
 		EffectProperties.TargetController = Data.Target.AbilityActorInfo->PlayerController.Get();
 		EffectProperties.TargetCharacter = Cast<ACharacter>(EffectProperties.TargetAvatarActor);
 		EffectProperties.TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(EffectProperties.TargetAvatarActor);
+	}
+}
+
+void ULokiAttributeSet::ShowFloatingText(const FEffectProperties& EffectProperties, const float Damage)
+{
+	if (EffectProperties.SourceCharacter != EffectProperties.TargetCharacter)
+	{
+		if (ALokiPlayerController* LokiPC = Cast<ALokiPlayerController>(UGameplayStatics::GetPlayerController(EffectProperties.SourceCharacter, 0)))
+		{
+			LokiPC->ShowDamageNumber(Damage, EffectProperties.TargetCharacter);
+		}
 	}
 }

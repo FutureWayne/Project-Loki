@@ -43,11 +43,17 @@ protected:
 
 	virtual void UpdateFacingTarget(const FVector& TargetLocation) override;
 
+	virtual void Die() override;
+
+	/** Combat Interface */
+
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	FName WeaponTipSocketName;
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TObjectPtr<UAnimMontage> HitReactMontage;
+
+	/** Ability System */
 
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;

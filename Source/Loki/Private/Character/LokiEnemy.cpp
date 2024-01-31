@@ -86,3 +86,9 @@ void ALokiEnemy::InitializeDefaultAttributes() const
 {
 	ULokiAbilitySystemLibrary::InitializeDefaultAttributes(this, CharacterClass, Level, AbilitySystemComponent);
 }
+
+void ALokiEnemy::Die()
+{
+	SetLifeSpan(LifeSpan);
+	Super::Die();
+}

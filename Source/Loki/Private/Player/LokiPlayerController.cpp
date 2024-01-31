@@ -8,6 +8,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "AbilitySystem/LokiAbilitySystemComponent.h"
 #include "GameFramework/Character.h"
+#include "UI/Widget/DamageTextComponent.h"
 
 
 void ALokiPlayerController::AbilityInputTagPressed(const FGameplayTag InputTag)
@@ -47,6 +48,20 @@ ULokiAbilitySystemComponent* ALokiPlayerController::GetLokiAbilitySystemComponen
 		LokiAbilitySystemComponent = CastChecked<ULokiAbilitySystemComponent>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetPawn()));
 	}
 	return LokiAbilitySystemComponent;
+}
+
+void ALokiPlayerController::ShowDamageNumber(const float Damage, ACharacter* TargetCharacter)
+{
+	if (IsValid(TargetCharacter) && DamageTextComponentClass)
+	{
+		if (UDamageTextComponent* DamageText = NewObject<UDamageTextComponent>(TargetCharacter, DamageTextComponentClass))
+		{
+			DamageText->RegisterComponent();
+			DamageText->AttachToComponent(TargetCharacter->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+			DamageText->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+			DamageText->SetDamageText(Damage);
+		}
+	}
 }
 
 

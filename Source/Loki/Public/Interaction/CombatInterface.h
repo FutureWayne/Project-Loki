@@ -30,6 +30,8 @@ public:
 	
 	virtual void UpdateFacingTarget(const FVector& TargetLocation);
 
+	virtual void Die() = 0;
+
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Combat")
 	UAnimMontage* GetHitReactMontage() const;
 };

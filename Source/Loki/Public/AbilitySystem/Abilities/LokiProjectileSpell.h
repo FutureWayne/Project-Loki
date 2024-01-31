@@ -19,7 +19,7 @@ class LOKI_API ULokiProjectileSpell : public ULokiGameplayAbility
 
 protected:
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
-
+	
 	UFUNCTION(BlueprintCallable, Category = "Loki|Projectile")
 	void SpawnProjectile();
 	

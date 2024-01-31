@@ -33,16 +33,21 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
 	FOnHealtChangedSignature OnMaxHealthChanged;
 
-	UPROPERTY(BlueprintReadOnly, Category = "GAS|Attributes")
+	UPROPERTY(BlueprintReadOnly, Category = "Combat")
 	bool bHitReacting = false;
 
-	UPROPERTY(BlueprintReadOnly, Category = "GAS|Attributes")
+	UPROPERTY(BlueprintReadOnly, Category = "Combat")
 	float BaseWalkSpeed = 600.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+	float LifeSpan = 5.f;
 
 protected:
 	virtual void InitAbilityActorInfo() override;
 
 	virtual void InitializeDefaultAttributes() const override;
+
+	virtual void Die() override;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character Class Defaults")
 	int32 Level = 1;

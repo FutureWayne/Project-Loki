@@ -7,6 +7,7 @@
 #include "GameFramework/PlayerController.h"
 #include "LokiPlayerController.generated.h"
 
+class UDamageTextComponent;
 class ULokiAbilitySystemComponent;
 struct FInputActionValue;
 class ULokiInputConfig;
@@ -26,6 +27,9 @@ public:
 	void AbilityInputTagHeld(FGameplayTag InputTag);
 
 	ULokiAbilitySystemComponent* GetLokiAbilitySystemComponent();
+
+	UFUNCTION()
+	void ShowDamageNumber(const float Damage, ACharacter* TargetCharacter);
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Input)
 	TObjectPtr<ULokiInputConfig> InputConfig;
@@ -66,4 +70,7 @@ private:
 
 	/** Called for stopping jumping input */
 	void StopJumping(const FInputActionValue& Value);
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UDamageTextComponent> DamageTextComponentClass;
 };
